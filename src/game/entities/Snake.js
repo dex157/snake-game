@@ -78,6 +78,10 @@ class Snake {
     this.head = this.pointList.points[0]
   }
 
+  isSuicide() {
+    return false
+  }
+
   grow() {
     this.growPoints += 1
   }

@@ -40,10 +40,30 @@
         menu {
           position: absolute;
         }
+
+        .container {
+          display: flex;
+          flex-direction: column;
+        }
+
+        #hud {
+          display: flex;
+          padding-bottom: 3px;
+        }
+
+        #level, #score {
+          width: 100px;
+        }
       </style>
   </head>
 <body>
-  <game></game>
+  <div class="container">
+    <div id="hud">
+      <div id="level">Level: 0</div>
+      <div id="score">Score: 0</div>
+    </div>
+    <game></game>
+  </div>
   <menu class="hidden">
     <button class="new-game">New game</button>
   </menu>

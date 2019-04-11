@@ -5,7 +5,11 @@ class RoundStatistic {
     this.level = 0
     this.food = this.levels[this.level].food
     this.stepMS = this.levels[this.level].stepMS
-    console.log(this.levels)
+    this.listeners = []
+  }
+
+  listen(cb) {
+    this.listeners.push(cb)
   }
 
   addPoints() {
@@ -15,6 +19,7 @@ class RoundStatistic {
       this.food = this.levels[this.level].food
       this.stepMS = this.levels[this.level].stepMS
     }
+    this.listeners.forEach(cb => cb())
   }
 }
 

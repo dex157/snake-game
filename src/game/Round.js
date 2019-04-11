@@ -32,14 +32,7 @@ class Round {
   }
 
   start() {
-    while (this.food.getCount() < this.roundStatistic.food) {
-      const freePoint = Point.getFreePoint(
-        this.config.field.width,
-        this.config.field.height,
-        this.snake.pointList.concat(this.field.pointList).concat(this.food.pointList).points
-      )
-      this.food.add(freePoint)
-    }
+    this.addFood()
 
     this.canvas.addElements(enitityToView(this.field))
     this.canvas.addElements(enitityToView(this.snake))
@@ -58,21 +51,15 @@ class Round {
     this.snake.move()
 
     if (this.field.pointList.isIntersectPoint(this.snake.head)) {
-      this.end()
-      return
+      return this.end()
+    } else if (this.snake.isSuicide()) {
+      return this.end()
     } else if (this.food.pointList.isIntersectPoint(this.snake.head)) {
       this.food.remove(this.snake.head)
       this.roundStatistic.addPoints()
       this.food.setMax(this.roundStatistic.food)
-
-      while (this.food.getCount() < this.roundStatistic.food) {
-        const freePoint = Point.getFreePoint(
-          this.config.field.width,
-          this.config.field.height,
-          this.snake.pointList.concat(this.field.pointList).concat(this.food.pointList).points
-        )
-        this.food.add(freePoint)
-      }
+      this.timer.stepDelta = this.roundStatistic.stepMS
+      this.addFood()
       this.snake.grow()
     }
 
@@ -87,6 +74,17 @@ class Round {
 
   end() {
     this.onEndGameCallback()
+  }
+
+  addFood() {
+    while (this.food.getCount() < this.roundStatistic.food) {
+      const freePoint = Point.getFreePoint(
+        this.config.field.width,
+        this.config.field.height,
+        this.snake.pointList.concat(this.field.pointList).concat(this.food.pointList).points
+      )
+      this.food.add(freePoint)
+    }
   }
 }
 

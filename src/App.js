@@ -3,6 +3,7 @@ import RoundStatistic from './game/RoundStatistic'
 import KeyboardController from './system/KeyboardController'
 import Canvas from './view/Canvas'
 import Menu from './view/Menu'
+import HUD from './view/HUD'
 import config from './config'
 
 class App {
@@ -10,9 +11,11 @@ class App {
     this.canvas = new Canvas()
     this.keyboardController = new KeyboardController()
     this.menu = new Menu()
+    this.HUD = new HUD()
 
     this.onEndRound = this.onEndRound.bind(this)
     this.restart = this.restart.bind(this)
+    this.updateHUD = this.updateHUD.bind(this)
   }
 
   onEndRound() {
@@ -34,6 +37,14 @@ class App {
     this.canvas.unfade()
     this.keyboardController.listen()
     this.round.start()
+
+    this.roundStatistic.listen(this.updateHUD)
+    this.updateHUD()
+  }
+
+  updateHUD() {
+    this.HUD.setLevel(this.roundStatistic.level)
+    this.HUD.setScore(this.roundStatistic.point)
   }
 }
 
