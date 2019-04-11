@@ -79,7 +79,8 @@ class Snake {
   }
 
   isSuicide() {
-    return false
+    const body = new PointList(this.pointList.points.slice(1))
+    return body.isIntersectPoint(this.head)
   }
 
   grow() {

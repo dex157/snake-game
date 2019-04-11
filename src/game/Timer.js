@@ -18,7 +18,7 @@ class Timer {
     if (this.beforeStepTS) {
       delta = this.stepDelta - (Date.now() - this.beforeStepTS)
     }
-    if (!delta || delta < 0) delta = this.stepDelta
+    delta = Math.max(0, delta)
 
     setTimeout(this.handleTimeout, delta)
   }

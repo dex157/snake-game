@@ -83,6 +83,10 @@ class Round {
         this.config.field.height,
         this.snake.pointList.concat(this.field.pointList).concat(this.food.pointList).points
       )
+
+      if (freePoint == null) {
+        break
+      }
       this.food.add(freePoint)
     }
   }
