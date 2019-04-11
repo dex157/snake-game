@@ -1,25 +1,29 @@
 import Snake from './entities/Snake'
 import Field from './entities/Field'
 import Food from './entities/Food'
+import Point from '../geometry/Point'
 import enitityToView from './entityToView'
 import Timer from './Timer'
 
 class Round {
-  constructor(config, canvas, keyboardController) {
+  constructor(config, roundStatistic, canvas, keyboardController) {
     this.config = config
     this.canvas = canvas
+    this.roundStatistic = roundStatistic
     this.onEndGameCallback
     this.keyboardController = keyboardController
+
+    this.step = this.step.bind(this)
 
     this.field = new Field(config.field.width, config.field.height)
     const fieldCenter = this.field.getCenter()
     this.snake = new Snake(config.startSnakeSize, fieldCenter)
+
     this.food = new Food()
+    this.food.setMax(this.roundStatistic.food)
 
     this.timer = new Timer()
-    this.timer.stepDelta = config.stepMS
-
-    this.step = this.step.bind(this)
+    this.timer.stepDelta = this.roundStatistic.stepMS
     this.timer.onTimeout(this.step)
   }
 
@@ -28,6 +32,15 @@ class Round {
   }
 
   start() {
+    while (this.food.getCount() < this.roundStatistic.food) {
+      const freePoint = Point.getFreePoint(
+        this.config.field.width,
+        this.config.field.height,
+        this.snake.pointList.concat(this.field.pointList).concat(this.food.pointList).points
+      )
+      this.food.add(freePoint)
+    }
+
     this.canvas.addElements(enitityToView(this.field))
     this.canvas.addElements(enitityToView(this.snake))
     this.canvas.addElements(enitityToView(this.food))
@@ -47,6 +60,20 @@ class Round {
     if (this.field.pointList.isIntersectPoint(this.snake.head)) {
       this.end()
       return
+    } else if (this.food.pointList.isIntersectPoint(this.snake.head)) {
+      this.food.remove(this.snake.head)
+      this.roundStatistic.addPoints()
+      this.food.setMax(this.roundStatistic.food)
+
+      while (this.food.getCount() < this.roundStatistic.food) {
+        const freePoint = Point.getFreePoint(
+          this.config.field.width,
+          this.config.field.height,
+          this.snake.pointList.concat(this.field.pointList).concat(this.food.pointList).points
+        )
+        this.food.add(freePoint)
+      }
+      this.snake.grow()
     }
 
     this.canvas.addElements(enitityToView(this.field))

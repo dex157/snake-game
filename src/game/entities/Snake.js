@@ -1,4 +1,3 @@
-import Point from '../../geometry/Point'
 import PointList from '../../geometry/PointList'
 
 class Snake {
@@ -7,6 +6,7 @@ class Snake {
     this.head
     this.body
     this.pointList = new PointList()
+    this.growPoints = 0
 
     this.direction = getRandomDirection()
 
@@ -47,7 +47,14 @@ class Snake {
   }
 
   move() {
+    this.pointList.points.pop()
     this.pointList.points.unshift(this.tail)
+
+    if (this.growPoints > 0) {
+      const newCeil = this.tail.clone()
+      this.pointList.push(newCeil)
+      this.growPoints -= 1
+    }
 
     switch (this.direction) {
       case 'up':
@@ -67,8 +74,12 @@ class Snake {
         this.tail.y = this.head.y
         break
     }
-    this.tail = this.pointList.points.splice(this.pointList.points.length - 1, 1)
+    this.tail = this.pointList.points[this.pointList.points.length - 1]
     this.head = this.pointList.points[0]
+  }
+
+  grow() {
+    this.growPoints += 1
   }
 }
 

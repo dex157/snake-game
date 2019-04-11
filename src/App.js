@@ -1,4 +1,5 @@
 import Round from './game/Round'
+import RoundStatistic from './game/RoundStatistic'
 import KeyboardController from './system/KeyboardController'
 import Canvas from './view/Canvas'
 import Menu from './view/Menu'
@@ -27,7 +28,8 @@ class App {
   }
 
   start() {
-    this.round = new Round(config, this.canvas, this.keyboardController)
+    this.roundStatistic = new RoundStatistic(config.levels)
+    this.round = new Round(config, this.roundStatistic, this.canvas, this.keyboardController)
     this.round.onEndGame(this.onEndRound)
     this.canvas.unfade()
     this.keyboardController.listen()
