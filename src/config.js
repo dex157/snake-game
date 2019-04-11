@@ -4,5 +4,6 @@ export default {
     width: 52,
     height: 52
   },
-  stepMS: 500
+  stepMS: 300,
+  startSnakeSize: 3
 }

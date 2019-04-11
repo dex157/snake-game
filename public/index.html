@@ -1,5 +1,51 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+      <script src="../src/index.js"></script>
+      <title>Snake game</title>
+      <style>
+        html, body {
+          height: 100%;
+        }
+
+        body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0;
+        }
+
+        game {
+          width: 520px;
+          height: 520px;
+          position: relative;
+        }
+
+        .poligon {
+          border-style: solid;
+          border-width: 1px;
+          width: 10px;
+          height: 10px;
+          position: absolute;
+        }
+
+        .fade {
+          opacity: 0.3;
+        }
+
+        .hidden {
+          display: none;
+        }
+
+        menu {
+          position: absolute;
+        }
+      </style>
+  </head>
 <body>
-  <script src="../src/index.js"></script>
+  <game></game>
+  <menu class="hidden">
+    <button class="new-game">New game</button>
+  </menu>
 </body>
 </html>

@@ -1,5 +1,10 @@
+import PointList from "../../geometry/PointList";
+
 class Food {
-  constructor() {}
+  constructor() {
+    this.pointList = new PointList()
+  }
+
 }
 
 export default Food

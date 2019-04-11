@@ -1,12 +1,13 @@
-import Round from './game/Round'
-import Canvas from './view/Canvas'
-import config from './config'
+import App from './App'
 
 function main() {
-  const canvas = new Canvas()
-  const round = new Round(config, canvas)
-
-  round.start()
+  const app = new App()
+  app.start()
 }
 
-main()
+function onContentLoaded() {
+  document.removeEventListener('DOMContentLoaded', onContentLoaded)
+  main()
+}
+
+document.addEventListener('DOMContentLoaded', onContentLoaded)
